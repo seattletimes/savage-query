@@ -1,6 +1,6 @@
 {
   "name": "savage-query",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A lightweight DOM abstraction for SVG - part of the Savage utilities",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/seattletimes/savage-query/issues"
   },
-  "homepage": "https://github.com/seattletimes/savage-query"
+  "homepage": "https://github.com/seattletimes/savage-query",
+  "browserify": {
+    "transform": ["babelify"]
+  }
 }
