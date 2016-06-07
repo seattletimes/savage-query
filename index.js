@@ -46,7 +46,7 @@ var mixin = {
 
   removeClass(c) {
     var className = this.getAttribute("class") || "";
-    var remove = new RegExp(`\\s+?${c}\\s+?`);
+    var remove = new RegExp(`\\s*?${c}\\s*?`);
     this.setAttribute("class", className.replace(remove, ""));
   },
 

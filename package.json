@@ -1,6 +1,6 @@
 {
   "name": "savage-query",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A lightweight DOM abstraction for SVG - part of the Savage utilities",
   "main": "index.js",
   "scripts": {
