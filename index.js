@@ -1,12 +1,49 @@
-var clone = require("./clone");
+//simple clone
+//necessary because SVG bounding box objects are read-only in IE
+
+var clone = function(obj) {
+  var o = {};
+  for (var key in obj) {
+    o[key] = obj[key];
+  }
+  return o;
+};
+
+var NS = "http://www.w3.org/2000/svg";
 
 var Savage = function(selector) {
   if (!(this instanceof Savage)) return new Savage(selector);
-  this.elements = typeof selector == "string" ? Array.prototype.slice.call(document.querySelectorAll(selector)) : [selector];
+  if (typeof selector == "string") {
+    this.elements = Array.prototype.slice.call(document.querySelectorAll(selector));
+  } else if (selector instanceof Array) {
+    this.elements = selector;
+  } else {
+    this.elements = [selector];
+  }
+  this.length = this.elements.length;
+};
+
+Savage.dom = function(tagName, attrs, children) {
+  var element = document.createElementNS(NS, tagName);
+  if (attrs instanceof Array) {
+    children = attrs;
+    attrs = {};
+  }
+  if (attrs) for (var a in attrs) {
+    element.setAttribute(a, attrs[a]);
+  }
+  if (children) children.forEach(function(c) {
+    element.appendChild(c);
+  });
+  return element;
 };
 
 Savage.prototype = {
   elements: null,
+  
+  toArray() {
+    return this.elements;
+  },
 
   each(fn) {
     this.elements.forEach(fn);
@@ -14,6 +51,15 @@ Savage.prototype = {
 
   get(index) {
     return this.elements[index || 0];
+  },
+  
+  find(selector) {
+    var found = [];
+    this.each(function(element) {
+      var q = element.querySelectorAll(selector);
+      for (var i = 0; i < q.length; i++) found.push(q[i]);
+    });
+    return new Savage(found);
   },
 
   getBBox(padding = 0) {
