@@ -25,16 +25,20 @@ var Savage = function(selector) {
 
 Savage.dom = function(tagName, attrs, children) {
   var element = document.createElementNS(NS, tagName);
-  if (attrs instanceof Array) {
+  if (attrs instanceof Array || typeof attrs == "string") {
     children = attrs;
     attrs = {};
   }
   if (attrs) for (var a in attrs) {
     element.setAttribute(a, attrs[a]);
   }
-  if (children) children.forEach(function(c) {
-    element.appendChild(c);
-  });
+  if (children instanceof Array) {
+    children.forEach(function(c) {
+      element.appendChild(c);
+    });
+  } else if (typeof children == "string") {
+    element.textContent = children;
+  }
   return element;
 };
 
